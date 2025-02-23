@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class CtaTrackerApplication
 
 fun main(args: Array<String>) {
-	runApplication<CtaTrackerApplication>(*args)
+    runApplication<CtaTrackerApplication>(*args)
 }

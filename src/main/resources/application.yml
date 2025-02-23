@@ -1,3 +1,6 @@
 spring:
   application:
     name: cta-tracker
+
+transit-chicago:
+  url: https://lapi.transitchicago.com/api/1.0/ttarrivals.aspx
