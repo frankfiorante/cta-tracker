@@ -1,3 +1,14 @@
 spring:
   application:
     name: cta-tracker
+
+cta:
+  api:
+    key: some-key
+    base-url: https://lapi.transitchicago.com/api/1.0
+  proximity-meters: 400
+  arrival-window-minutes: 10
+  cooldown-minutes: 1
+
+ntfy:
+  topic-url: https://ntfy.sh/cta-tracker-zy9avJ
