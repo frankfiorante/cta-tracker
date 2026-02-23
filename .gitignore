@@ -42,3 +42,6 @@ out/
 
 ### MacOS ###
 .DS_Store
+
+### Local config ###
+src/main/resources/application-local.yml
