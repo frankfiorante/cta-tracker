@@ -40,8 +40,8 @@ Configure `src/main/resources/application.yml` with your API key and ntfy topic 
 
 ```json
 {
-  "latitude": 41.8827,
-  "longitude": -87.6324
+  "lat": "41.884500",
+  "lon": "-87.630997"
 }
 ```
 
