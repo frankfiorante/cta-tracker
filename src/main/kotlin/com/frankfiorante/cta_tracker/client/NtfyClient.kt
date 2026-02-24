@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.client.WebClientException
 
 @Service
 class NtfyClient(
-    @Qualifier("ntfyWebClient") private val webClient: WebClient
+    @Qualifier("ntfyWebClient") private val webClient: WebClient,
 ) {
 
     private val log = LoggerFactory.getLogger(NtfyClient::class.java)
@@ -22,7 +22,7 @@ class NtfyClient(
                 .retrieve()
                 .toBodilessEntity()
                 .block()
-            log.info("Notification sent: {}", message)
+            log.debug("Notification sent: {}", message)
         } catch (e: WebClientException) {
             log.warn("Failed to send ntfy notification: {}", e.message)
         }
