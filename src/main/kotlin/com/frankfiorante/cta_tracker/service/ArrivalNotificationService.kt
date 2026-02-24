@@ -64,14 +64,14 @@ class ArrivalNotificationService(
             }
 
             val lines = upcoming.joinToString("\n") {
-                val eta = if (it.isApproaching == "1") "Due"
+                val eta = if (it.isApproaching == "1") "Now"
                 else {
                     val arrivalDateTime = LocalDateTime.parse(it.arrivalTime, arrivalDateTimeFormat)
-                    "${Duration.between(nowChicago, arrivalDateTime).toMinutes()} minutes"
+                    "${Duration.between(nowChicago, arrivalDateTime).toMinutes()} min"
                 }
-                "  - ${it.route} toward ${it.destination} in $eta"
+                "${it.route} → ${it.destination}: $eta"
             }
-            val message = "CTA at ${station.name}:\n$lines"
+            val message = "${station.name}\n$lines"
 
             ntfyClient.sendNotification(message)
             lastNotified[station.mapId] = now
