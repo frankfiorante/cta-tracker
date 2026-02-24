@@ -8,4 +8,5 @@ data class CtaArrival(
     @JsonProperty("destNm") val destination: String,
     @JsonProperty("arrT") val arrivalTime: String,
     @JsonProperty("isApp") val isApproaching: String,
+    @JsonProperty("isDly") val isDelayed: String,
 )

@@ -13,9 +13,9 @@ class StationRepository {
     private val stations = listOf(
         Station(40230, "Cumberland", 41.984246, -87.838028),
         Station(40750, "Harlem (O'Hare Branch)", 41.98227, -87.8089),
-        Station(40380, "Clark/Lake (Blue Line)", 41.885737, -87.630886, stopIds = setOf("30374", "30375")),
-        Station(40370, "Washington (Blue Line)", 41.883164, -87.62944),
-        Station(40790, "Monroe (Blue Line)", 41.880703, -87.629378),
+        Station(40380, "Clark/Lake", 41.885737, -87.630886, stopIds = setOf("30374", "30375")),
+        Station(40370, "Washington", 41.883164, -87.62944),
+        Station(40790, "Monroe", 41.880703, -87.629378),
     )
 
     fun findNearby(lat: Double, lon: Double, radiusMeters: Double): List<Station> =

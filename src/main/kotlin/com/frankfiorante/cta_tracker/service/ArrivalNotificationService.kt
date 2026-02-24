@@ -8,7 +8,6 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.concurrent.ConcurrentHashMap
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -25,7 +24,6 @@ class ArrivalNotificationService(
     private val log = LoggerFactory.getLogger(ArrivalNotificationService::class.java)
     private val chicago = ZoneId.of("America/Chicago")
     private val arrivalDateTimeFormat = DateTimeFormatter.ISO_LOCAL_DATE_TIME
-    private val lastNotified = ConcurrentHashMap<Int, Instant>()
 
     fun processLocation(lat: Double, lon: Double) {
         val nearbyStations = stationRepository.findNearby(lat, lon, proximityMeters)
@@ -39,12 +37,6 @@ class ArrivalNotificationService(
         val windowEnd = nowChicago.plusMinutes(arrivalWindowMinutes)
 
         for (station in nearbyStations) {
-            val lastTime = lastNotified[station.mapId]
-            if (lastTime != null) {
-                log.debug("Cooldown active for station {} ({})", station.name, station.mapId)
-                continue
-            }
-
             val arrivals = ctaApiClient.getArrivals(station.mapId)
             val upcoming = arrivals.filter {
                 if (station.stopIds.isNotEmpty() && it.stopId !in station.stopIds) return@filter false
@@ -64,17 +56,19 @@ class ArrivalNotificationService(
             }
 
             val lines = upcoming.joinToString("\n") {
-                val eta = if (it.isApproaching == "1") "Now"
-                else {
-                    val arrivalDateTime = LocalDateTime.parse(it.arrivalTime, arrivalDateTimeFormat)
-                    "${Duration.between(nowChicago, arrivalDateTime).toMinutes()} min"
+                val eta = when {
+                    it.isDelayed == "1" -> "Delayed"
+                    it.isApproaching == "1" -> "Now"
+                    else -> {
+                        val arrivalDateTime = LocalDateTime.parse(it.arrivalTime, arrivalDateTimeFormat)
+                        "${Duration.between(nowChicago, arrivalDateTime).toMinutes()} min"
+                    }
                 }
                 "${it.route} → ${it.destination}: $eta"
             }
             val message = "${station.name}\n$lines"
 
             ntfyClient.sendNotification(message)
-            lastNotified[station.mapId] = now
         }
     }
 }
