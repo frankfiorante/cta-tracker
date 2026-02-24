@@ -1,13 +1,13 @@
 # CTA Tracker
 
-Spring Boot service that sends push notifications when a CTA train is arriving near your location. Designed to receive GPS coordinates from an iOS Shortcut and notify via [ntfy.sh](https://ntfy.sh).
+Spring Boot service that sends push notifications when a CTA train is arriving near your location. Designed to receive
+GPS coordinates from an iOS Shortcut and notify via [ntfy.sh](https://ntfy.sh).
 
 ## How it works
 
 1. An iOS Shortcut POSTs your GPS location to `/location`
-2. The app finds CTA stations within 400m
+2. The app finds CTA stations within 400 meters
 3. If a train arrives within 10 minutes, a push notification is sent via ntfy.sh
-4. A cooldown prevents repeated notifications for the same station
 
 ## Prerequisites
 
@@ -47,10 +47,9 @@ Configure `src/main/resources/application.yml` with your API key and ntfy topic 
 
 ## Configuration
 
-| Property                     | Default | Description                                    |
-|------------------------------|---------|------------------------------------------------|
-| `cta.api.key`                | —       | CTA Train Tracker API key                      |
-| `cta.proximity-meters`       | `400`   | Radius to search for nearby stations           |
-| `cta.arrival-window-minutes` | `10`    | Alert if train arrives within this window      |
-| `cta.cooldown-minutes`       | `1`     | Minimum time between notifications per station |
-| `ntfy.topic-url`             | —       | ntfy.sh topic URL to send notifications to     |
+| Property                     | Default | Description                                |
+|------------------------------|---------|--------------------------------------------|
+| `cta.api.key`                | —       | CTA Train Tracker API key                  |
+| `cta.proximity-meters`       | `400`   | Radius to search for nearby stations       |
+| `cta.arrival-window-minutes` | `10`    | Alert if train arrives within this window  |
+| `ntfy.topic-url`             | —       | ntfy.sh topic URL to send notifications to |

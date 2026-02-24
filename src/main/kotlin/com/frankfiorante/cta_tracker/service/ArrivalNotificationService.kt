@@ -20,7 +20,6 @@ class ArrivalNotificationService(
     private val ntfyClient: NtfyClient,
     @Value($$"${cta.proximity-meters}") private val proximityMeters: Double,
     @Value($$"${cta.arrival-window-minutes}") private val arrivalWindowMinutes: Long,
-    @Value($$"${cta.cooldown-minutes}") private val cooldownMinutes: Long,
 ) {
 
     private val log = LoggerFactory.getLogger(ArrivalNotificationService::class.java)
@@ -41,7 +40,7 @@ class ArrivalNotificationService(
 
         for (station in nearbyStations) {
             val lastTime = lastNotified[station.mapId]
-            if (lastTime != null && now.isBefore(lastTime.plusSeconds(cooldownMinutes * 60))) {
+            if (lastTime != null) {
                 log.debug("Cooldown active for station {} ({})", station.name, station.mapId)
                 continue
             }
